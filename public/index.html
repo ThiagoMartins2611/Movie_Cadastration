@@ -89,12 +89,12 @@
 
 
             <div class="inputsLocal">
-                <label for="email">Email</label>
+                <label class="lab" for="email">Email</label>
                 <input type="email" name="email" id="email">
             </div>
 
             <div class="inputsLocal">
-                <label for="senha">Senha</label>
+                <label class="lab" for="senha">Senha</label>
                 <input type="password" name="senha" id="senha">
             </div>
     
@@ -109,5 +109,71 @@
 
     </div>
     
+    <script>
+
+        let cont = 1;
+        
+        async function formSubmit(){
+
+            const inputEmail = document.getElementById("email");
+            const inputSenha = document.getElementById("senha");
+            
+            const labels = document.getElementsByClassName("lab");
+
+            const email = inputEmail.value;
+            const senha = inputSenha.value;
+
+        
+            if(email != '' && senha != ''){
+                const cad = {
+                    email,
+                    senha
+                }
+
+
+                try {
+                    
+                    const res = await fetch("http://localhost:7000/LoginUser", {
+                        headers: {
+                          'Content-Type': 'application/json'
+                        },
+
+                        method: "POST",
+
+                        body: JSON.stringify(cad)
+                    });
+
+
+                    if(res.status === 200){
+
+                        console.log("Voce foi Cadastrado ")
+                    
+                        inputEmail.value = '';
+                        inputSenha.value = '';
+
+                        window.location.href = 'main.html';
+                        
+                    }
+                } 
+                
+                catch (error) {
+                    alert("não foi possivel enviar seus dados por falha de comunicação com o servidor") 
+                }
+
+            }else{
+
+                if(cont === 0){
+                    Array.from(labels).forEach(element => {
+                        if(document.getElementById(`${element.textContent.toLowerCase()}`).value == ""){
+                            element.innerText = element.textContent + "*";
+                        }
+                    });
+
+                    cont = 1;
+                }
+               
+            }
+        }
+    </script>
 </body>
 </html>
