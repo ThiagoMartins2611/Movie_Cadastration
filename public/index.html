@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <style>
+          *{
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body{
+            width: 100vw;
+            height: 100vh;
+        }
+
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .boxLogin{
+            display: flex;
+            flex-direction: column;
+
+            width: 35vw;
+            height: 50vh;
+
+            border: 1px solid black;
+
+            justify-content: space-around;
+            align-items: center;
+        }
+
+
+        #loginForms{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .fazerCad{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input{
+            border: 1px solid black;
+            outline: none;
+
+            background-color: transparent;
+    
+            transition: 1s;
+        }
+
+        label{
+            font-size: smaller;
+        }
+
+        .inputsLocal{
+            display: flex;
+            flex-direction: column;
+        }
+
+        #buttonSubmit{
+            width: 150px;
+            height: 30px;
+        }
+
+        #buttonSubmit:hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="boxLogin">
+
+        <h1>Login</h1>
+
+        <form onsubmit="event.preventDefault(); formSubmit()" id="loginForms">
+
+
+            <div class="inputsLocal">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email">
+            </div>
+
+            <div class="inputsLocal">
+                <label for="senha">Senha</label>
+                <input type="password" name="senha" id="senha">
+            </div>
+    
+
+            <input id="buttonSubmit" type="submit" value="cadastrar">
+
+        </form>
+
+        <div class="fazerCad">
+            <a href="cadastro.html">Não tem login? Faça o Cadastro!</a>
+        </div>
+
+    </div>
+    
+</body>
+</html>

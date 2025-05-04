@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar</title>
+
+    <style>
+        *{
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body{
+            width: 100vw;
+            height: 100vh;
+        }
+
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #CadForms{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input{
+            border: 1px solid black;
+            outline: none;
+
+            background-color: transparent;
+    
+            transition: 1s;
+        }
+
+        label{
+            font-size: smaller;
+        }
+
+        .inputsLocal{
+            display: flex;
+            flex-direction: column;
+        }
+
+        #buttonSubmit{
+            width: 150px;
+            height: 30px;
+        }
+
+        #buttonSubmit:hover{
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+
+    <form onsubmit="event.preventDefault(); formSubmit()" id="CadForms">
+
+        <div class="inputsLocal">
+            <label class="lab" for="nome">Nome</label>
+            <input type="text" name="nome" id="nome">
+        </div>
+
+        <div class="inputsLocal">
+            <label class="lab" for="email">Email</label>
+            <input type="email" name="email" id="email">
+        </div>
+
+        <div class="inputsLocal">
+            <label class="lab" for="senha">Senha</label>
+            <input type="password" name="senha" id="senha">
+        </div>
+    
+
+        <input id="buttonSubmit" type="submit" value="Cadastrar">
+
+    </form>
+    
+
+    <script>
+
+        let cont = 0;
+
+        async function formSubmit() {
+            
+            const inputNome = document.getElementById("nome");
+            const inputEmail = document.getElementById("email");
+            const inputSenha = document.getElementById("senha");
+            
+            const labels = document.getElementsByClassName("lab");
+
+            const nome = inputNome.value;
+            const email = inputEmail.value;
+            const senha = inputSenha.value;
+
+        
+            if(nome != '' && email != '' && senha != ''){
+                const cad = {
+                    nome,
+                    email,
+                    senha
+                }
+
+
+                try {
+                    
+                    const res = await fetch("http://localhost:7000/cadastrar", {
+                        headers: {
+                          'Content-Type': 'application/json'
+                        },
+
+                        method: "POST",
+
+                        body: JSON.stringify(cad)
+                    });
+
+
+                    if(res.status === 200){
+
+                        console.log("Voce foi Cadastrado ")
+                    
+                        inputNome.value = '';
+                        inputEmail.value = '';
+                        inputSenha.value = '';
+
+                        window.location.href = 'cadSuccess.html';
+                        
+                    }
+                } 
+                
+                catch (error) {
+                    alert("não foi possivel enviar seus dados por falha de comunicação com o servidor") 
+                }
+
+            }else{
+
+                if(cont === 0){
+                    Array.from(labels).forEach(element => {
+                        if(document.getElementById(`${element.textContent.toLowerCase()}`).value == ""){
+                            element.innerText = element.textContent + "*";
+                        }
+                    });
+
+                    cont = 1;
+                }
+               
+            }
+        } 
+
+
+    </script>
+
+</body>
+</html>
