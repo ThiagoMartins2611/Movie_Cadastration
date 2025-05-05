@@ -141,15 +141,21 @@
                         window.location.href = 'cadSuccess.html';
                         
                     }
+
+                    if(res.status === 500){
+                        const resposta = await res.json()
+                        alert(resposta.mensagem)
+                    }
                 } 
                 
-                catch (error) {
+                catch (error){
                     alert("não foi possivel enviar seus dados por falha de comunicação com o servidor") 
                 }
 
             }else{
-
+             
                 if(cont === 0){
+              
                     Array.from(labels).forEach(element => {
                         if(document.getElementById(`${element.textContent.toLowerCase()}`).value == ""){
                             element.innerText = element.textContent + "*";

@@ -68,10 +68,9 @@ app.post('/cadastrarUsers', async (request:FastifyRequest, reply:FastifyReply)=>
     } 
     catch (error:any) {
         console.error("erro ao mandar para o banco")
-        reply.status(500).send("erro ao conectar ou mandar")
+        reply.status(500).send({mensagem: "Coloque um email diferente. Já tem um usuario com esse email"});
     }
 
-    reply.status(200).send("Dados recebidos");
 
     
 });
@@ -80,7 +79,7 @@ app.post('/cadastrarUsers', async (request:FastifyRequest, reply:FastifyReply)=>
 app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
 
     const {email, senha} = request.body as {email:string, senha:string} 
-    console.table(request.body)
+
     try {
 
         const conn = await mysql.createConnection({
@@ -120,10 +119,10 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
 
        const usuarios = rows as any[];
        
-       console.log(usuarios)
+
 
        if(usuarios.length == 0){
-        reply.status(400).send({mensagem: "Login Não cadastrado"});
+        reply.status(400).send({mensagem: "Usuario não identificado, confira o email e a senha"});
        }       
       
        if(usuarios.length == 1){
