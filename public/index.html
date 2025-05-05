@@ -154,6 +154,12 @@
                         window.location.href = 'main.html';
                         
                     }
+
+                    if(res.status === 400){
+                        const resposta = await res.json()
+                        alert(resposta.mensagem);
+                    }
+                    
                 } 
                 
                 catch (error) {

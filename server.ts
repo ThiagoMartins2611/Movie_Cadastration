@@ -120,16 +120,19 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
 
        const usuarios = rows as any[];
        
+       console.log(usuarios)
+
        if(usuarios.length == 0){
-        reply.status(401).send({mensagem: "Login Não cadastrado"});
+        reply.status(400).send({mensagem: "Login Não cadastrado"});
        }       
       
-       reply.status(200).send("dados enviados para o banco");
-
-
+       if(usuarios.length == 1){
+        reply.status(200).send("dados enviados para o banco");
+       }
+       
         
     } catch (error:any) {
-        
+        console.log("banco não encontrado para conectar")
     }
    
 
