@@ -9,7 +9,20 @@ const app = fastify()
 
 app.register(cors);
 app.register(fastifyCookie);
+app.register(fastifySession, {
 
+    secret: 'thiagoCosta_LeticiaAlves_RafaelDebastiani',
+
+    cookie: {
+
+        secure: false, 
+        maxAge: 1000 * 60 * 60 //uma hora de duration
+
+    },
+
+    saveUninitialized: false
+
+});
 
 
 
@@ -122,12 +135,21 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
 
 
        if(usuarios.length == 0){
-        reply.status(400).send({mensagem: "Usuario não identificado, confira o email e a senha"});
+        return reply.status(400).send({mensagem: "Usuario não identificado, confira o email e a senha"});
        }       
       
-       if(usuarios.length == 1){
-        reply.status(200).send("dados enviados para o banco");
-       }
+       request.session.authenticated = true;
+       request.session.user = {
+            id: usuarios[0].id,
+            nome: usuarios[0].nome,
+            email: usuarios[0].email
+        }
+
+        console.table(request.session.user)
+       
+
+        reply.status(200).send({mensagem: "Login realizado com sucesso"});
+       
        
         
     } catch (error:any) {
