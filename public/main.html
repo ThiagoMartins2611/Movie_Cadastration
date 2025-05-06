@@ -21,7 +21,10 @@
 
             try {
 
-                const resposta = await fetch("http://localhost:7000/page");
+                const resposta = await fetch('http://localhost:7000/page', {
+                    method: 'GET',
+                    credentials: 'include', // MUITO IMPORTANTE: Envia os cookies!
+                });
                 
                 const dados = await resposta.json();
 
