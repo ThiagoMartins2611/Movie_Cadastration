@@ -4,6 +4,7 @@ import fastifyCookie from '@fastify/cookie';
 import fastifySession from '@fastify/session';
 import cors from '@fastify/cors';
 import { request } from 'http';
+import { send } from 'process';
 
 const app = fastify()
 
@@ -14,13 +15,12 @@ app.register(fastifySession, {
     secret: 'thiagoCosta_LeticiaAlves_RafaelDebastiani',
 
     cookie: {
-
         secure: false, 
-        maxAge: 1000 * 60 * 60 //uma hora de duration
-
+        maxAge: 1000 * 60 * 60, 
     },
 
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookieName: 'sessionId'
 
 });
 
@@ -157,6 +157,32 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
     }
    
 
+});
+
+
+app.get('/page', async (request:FastifyRequest, reply:FastifyReply)=>{
+
+    if(request.session.authenticated){
+
+        reply.send({
+            mensagem: "Você está logado",
+            usuario: request.session.user
+        });
+
+    }else{
+        reply.status(401).send({mensagem: "Não autorizado, faça login"});
+    }
+});
+
+
+
+app.post('/logout', (request:FastifyRequest, reply:FastifyReply)=>{
+
+    request.session = null as any;
+
+    reply.clearCookie('sessionId'); 
+    
+    reply.send({ mensagem: "Logout realizado com sucesso" });
 });
 
 

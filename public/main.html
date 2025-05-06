@@ -4,8 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
     <h1>Main</h1>
+
+    <ul id="lista">
+
+    </ul>
+
+
+
+    <script>
+
+       async function mostragemSession(){
+
+            try {
+
+                const resposta = await fetch("http://localhost:7000/page");
+                
+                const dados = await resposta.json();
+
+                console.log("arroz", dados.usuario.nome)
+
+            } 
+
+            catch (error) {
+                alert("erro ao conectar com a conta do usuario")
+            }
+
+       }
+
+       mostragemSession()
+
+    </script>
 </body>
 </html>
