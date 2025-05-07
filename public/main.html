@@ -25,6 +25,13 @@
                     method: 'GET',
                     credentials: 'include', // MUITO IMPORTANTE: Envia os cookies!
                 });
+
+                if (!resposta.ok) {
+                    // se deu erro, exibe o status e sai
+                    const erro = await resposta.json();
+                    alert(erro.mensagem);
+                    return;
+                }
                 
                 const dados = await resposta.json();
 

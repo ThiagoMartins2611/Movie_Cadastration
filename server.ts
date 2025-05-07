@@ -3,24 +3,26 @@ import fastify, {FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 import fastifyCookie from '@fastify/cookie';
 import fastifySession from '@fastify/session';
 import cors from '@fastify/cors';
-import { request } from 'http';
-import { send } from 'process';
+
 
 const app = fastify()
 
-app.register(cors);
+app.register(cors, {
+    origin: ['http://localhost:5500', 'http://127.0.0.1:5500'], // ou onde seu front estiver
+    credentials: true
+  });
+
 app.register(fastifyCookie);
 app.register(fastifySession, {
 
     secret: 'thiagoCosta_LeticiaAlves_RafaelDebastiani',
-
+    cookieName: 'sessionId',
     cookie: {
         secure: false, 
         maxAge: 1000 * 60 * 60, 
     },
 
-    saveUninitialized: false,
-    cookieName: 'sessionId'
+    saveUninitialized: false
 
 });
 
@@ -146,10 +148,13 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
         }
 
         console.table(request.session.user)
-       
+        
 
-        reply.status(200).send({mensagem: "Login realizado com sucesso"});
-       
+        reply.status(200).send({
+            mensagem: "Login realizado com sucesso",
+            loginAuthenticated: request.session.authenticated
+        });
+
        
         
     } catch (error:any) {

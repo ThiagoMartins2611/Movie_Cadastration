@@ -104,7 +104,7 @@
     
             <p id="possivelErro"></p>
 
-            <input id="buttonSubmit" type="submit" value="cadastrar">
+            <input id="buttonSubmit" type="submit" value="Entrar">
 
         </form>
 
@@ -145,18 +145,27 @@
 
                         method: "POST",
 
+                        credentials: "include",
                         body: JSON.stringify(cad)
                     });
 
+                    
 
-                    if(res.status === 200){
-
+                    if(res.ok){
+    
                         console.log("Voce foi Cadastrado ")
                     
                         inputEmail.value = '';
                         inputSenha.value = '';
 
-                        window.location.href = 'main.html';
+    
+                        const data = await res.json();
+
+                        if (data.loginAuthenticated) {
+                            window.location.href = 'main.html';
+                        }
+
+                        
                         
                     }
 
@@ -171,6 +180,7 @@
                 } 
                 
                 catch (error) {
+                    console.log(error)
                     alert("não foi possivel enviar seus dados por falha de comunicação com o servidor") 
                 }
 
