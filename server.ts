@@ -1,7 +1,6 @@
 import mysql, {Connection, ConnectionOptions} from 'mysql2/promise';
 import fastify, {FastifyError, FastifyReply, FastifyRequest } from 'fastify'
-import fastifyCookie from '@fastify/cookie';
-import fastifySession from '@fastify/session';
+import fastifyJwt from '@fastify/jwt';
 import cors from '@fastify/cors';
 
 
@@ -9,23 +8,14 @@ const app = fastify()
 
 app.register(cors, {
 
-    origin: "http://127.0.0.1:5500",
+    origin: ["http://127.0.0.1:5500", "http://localhost:5500"],
     credentials: true
 
   });
 
-app.register(fastifyCookie);
-app.register(fastifySession, {
 
+app.register(fastifyJwt, {
     secret: 'thiagoCosta_LeticiaAlves_RafaelDebastiani',
-
-    cookie: {
-        secure: false,
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60
-    },
-
-    saveUninitialized: false
 
 });
 
@@ -142,28 +132,29 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
        if(usuarios.length == 0){
         return reply.status(400).send({mensagem: "Usuario não identificado, confira o email e a senha"});
        }       
+
       
-       (request.session as any).authenticated = true;
-       (request.session as any).user = {
+      
+       
+        const user = {
             id: usuarios[0].id,
             nome: usuarios[0].nome,
             email: usuarios[0].email
         }
 
 
-        console.table((request.session as any).user)
-        const loginAuthenticated = (request.session as any).authenticated;
+        const token = app.jwt.sign(user, {expiresIn: '1h'});
 
-        console.log(loginAuthenticated);
-        
+ 
 
         reply.status(200).send({
             mensagem: "Login realizado com sucesso",
-            loginAuthenticated
+            token
         });
 
        
-        
+        await dbconn.end();
+
     } catch (error:any) {
         console.log("banco não encontrado para conectar")
     }
@@ -171,31 +162,32 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
 
 });
 
+async function verificarToken(request: FastifyRequest, reply: FastifyReply) {
+    try {
 
-app.get('/page', async (request:FastifyRequest, reply:FastifyReply)=>{
+      await request.jwtVerify();
+    } catch (err) {
 
-    if((request.session as any).authenticated){
-
-        reply.send({
-            mensagem: "Você está logado",
-            usuario: (request.session as any).user
-        });
-
-    }else{
-        reply.status(401).send({mensagem: "Não autorizado, faça login"});
+      return reply.status(401).send({ mensagem: "Token inválido ou ausente" });
     }
+  }
+
+
+app.get('/page', { preHandler: verificarToken }, async (request:FastifyRequest, reply:FastifyReply)=>{
+
+    reply.send({
+        mensagem: "Você está logado",
+        usuario: request.user
+    });
 });
 
 
 
 app.post('/logout', (request:FastifyRequest, reply:FastifyReply)=>{
-
-    request.session = null as any;
-
-    reply.clearCookie('sessionId'); 
     
     reply.send({ mensagem: "Logout realizado com sucesso" });
 });
+
 
 
 
