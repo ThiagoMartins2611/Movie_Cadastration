@@ -8,17 +8,20 @@ import cors from '@fastify/cors';
 const app = fastify()
 
 app.register(cors, {
-    origin: ['http://localhost:5500', 'http://127.0.0.1:5500'], // ou onde seu front estiver
+
+    origin: "http://127.0.0.1:5500",
     credentials: true
+
   });
 
 app.register(fastifyCookie);
 app.register(fastifySession, {
 
     secret: 'thiagoCosta_LeticiaAlves_RafaelDebastiani',
-    cookieName: 'sessionId',
+
     cookie: {
-        secure: false, 
+        secure: false,
+        httpOnly: true,
         maxAge: 1000 * 60 * 60, 
     },
 
@@ -140,19 +143,23 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
         return reply.status(400).send({mensagem: "Usuario não identificado, confira o email e a senha"});
        }       
       
-       request.session.authenticated = true;
-       request.session.user = {
+       (request.session as any).authenticated = true;
+       (request.session as any).user = {
             id: usuarios[0].id,
             nome: usuarios[0].nome,
             email: usuarios[0].email
         }
 
-        console.table(request.session.user)
+
+        console.table((request.session as any).user)
+        const loginAuthenticated = (request.session as any).authenticated;
+
+        console.log(loginAuthenticated);
         
 
         reply.status(200).send({
             mensagem: "Login realizado com sucesso",
-            loginAuthenticated: request.session.authenticated
+            loginAuthenticated
         });
 
        
@@ -167,11 +174,11 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
 
 app.get('/page', async (request:FastifyRequest, reply:FastifyReply)=>{
 
-    if(request.session.authenticated){
+    if((request.session as any).authenticated){
 
         reply.send({
             mensagem: "Você está logado",
-            usuario: request.session.user
+            usuario: (request.session as any).user
         });
 
     }else{

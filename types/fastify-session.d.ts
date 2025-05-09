@@ -1,8 +1,7 @@
-// types/fastify-session.d.ts
-import 'fastify';
+import '@fastify/session';
 
-declare module 'fastify' {
-  interface Session {
+declare module '@fastify/session' {
+  interface SessionData {
     authenticated: boolean;
     user: {
       id: number;
