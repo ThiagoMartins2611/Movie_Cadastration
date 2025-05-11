@@ -1,0 +1,75 @@
+*{
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+html, body{
+    width: 100vw;
+    height: 100vh;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.boxLogin{
+    display: flex;
+    flex-direction: column;
+
+    width: 35vw;
+    height: 50vh;
+
+    border: 1px solid black;
+
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+#loginForms{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.fazerCad{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input{
+    border: 1px solid black;
+    outline: none;
+
+    background-color: transparent;
+
+    transition: 1s;
+}
+
+label{
+    font-size: smaller;
+}
+
+.inputsLocal{
+    display: flex;
+    flex-direction: column;
+}
+
+#buttonSubmit{
+    width: 150px;
+    height: 30px;
+}
+
+#buttonSubmit:hover{
+    cursor: pointer;
+}
+
+#possivelErro{
+    color: red;
+}
