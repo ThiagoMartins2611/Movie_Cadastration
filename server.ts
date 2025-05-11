@@ -8,7 +8,7 @@ const app = fastify()
 
 app.register(cors, {
 
-    origin: ["http://127.0.0.1:5500", "http://localhost:5500"],
+    origin: "http://127.0.0.1:5500",
     credentials: true
 
   });
@@ -19,6 +19,8 @@ app.register(fastifyJwt, {
 
 });
 
+
+let myPassword:string = "Thiago@4740w"
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
@@ -37,7 +39,7 @@ app.post('/cadastrarUsers', async (request:FastifyRequest, reply:FastifyReply)=>
         const conn = await mysql.createConnection({
             host: "localhost",
             user: 'root',
-            password:"",
+            password: myPassword,
             port: 3306
         });
 
@@ -49,7 +51,7 @@ app.post('/cadastrarUsers', async (request:FastifyRequest, reply:FastifyReply)=>
         const dbconn = await mysql.createConnection({
             host: "localhost",
             user: 'root',
-            password:"",
+            password: myPassword,
             database:"MovieCritcs",
             port: 3306
         });
@@ -93,7 +95,7 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
         const conn = await mysql.createConnection({
             host: "localhost",
             user: 'root',
-            password:"",
+            password: myPassword,
             port: 3306
         });
 
@@ -105,7 +107,7 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
         const dbconn = await mysql.createConnection({
             host: "localhost",
             user: 'root',
-            password:"",
+            password: myPassword,
             database:"MovieCritcs",
             port: 3306
         });
@@ -156,7 +158,8 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
         await dbconn.end();
 
     } catch (error:any) {
-        console.log("banco não encontrado para conectar")
+        console.log("banco não encontrado para conectar");
+        reply.status(500).send({ mensagem: "Erro interno" });
     }
    
 
@@ -166,6 +169,7 @@ async function verificarToken(request: FastifyRequest, reply: FastifyReply) {
     try {
 
       await request.jwtVerify();
+
     } catch (err) {
 
       return reply.status(401).send({ mensagem: "Token inválido ou ausente" });

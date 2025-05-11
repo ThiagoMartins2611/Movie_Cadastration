@@ -143,30 +143,17 @@
                           'Content-Type': 'application/json'
                         },
 
-                        credentials: "include",
-
                         method: "POST",
                         
                         body: JSON.stringify(cad)
                     });
 
+                    const data = await res.json();
+
+                    if(res.ok && data.token){
                     
-
-                    if(res.ok){
-    
-                        console.log("Voce foi Cadastrado ")
-                    
-                        inputEmail.value = '';
-                        inputSenha.value = '';
-
-    
-                        const data = await res.json();
-
-                        if (data.loginAuthenticated) {
-                            window.location.href = 'main.html';
-                        }
-
-                        
+                        localStorage.setItem("token", data.token);
+                        window.location.href = 'main.html';
                         
                     }
 
