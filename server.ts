@@ -20,14 +20,14 @@ app.register(fastifyJwt, {
 });
 
 
-let myPassword:string = ""
+let myPassword:string = "";
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
     reply.send("servidor rodando corretamente");
 });
 
-
+//cadastro
 app.post('/cadastrarUsers', async (request:FastifyRequest, reply:FastifyReply)=>{
 
     const {nome, email, senha} = request.body as {nome:string, email:string, senha:string};
@@ -85,7 +85,7 @@ app.post('/cadastrarUsers', async (request:FastifyRequest, reply:FastifyReply)=>
     
 });
 
-
+//login
 app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
 
     const {email, senha} = request.body as {email:string, senha:string} 
@@ -165,6 +165,7 @@ app.post('/LoginUser', async (request:FastifyRequest, reply:FastifyReply)=>{
 
 });
 
+//verificar tokens
 async function verificarToken(request: FastifyRequest, reply: FastifyReply) {
     try {
 
@@ -174,9 +175,9 @@ async function verificarToken(request: FastifyRequest, reply: FastifyReply) {
 
       return reply.status(401).send({ mensagem: "Token inválido ou ausente" });
     }
-  }
+}
 
-
+//pagina principal
 app.get('/page', { preHandler: verificarToken }, async (request:FastifyRequest, reply:FastifyReply)=>{
 
     reply.send({
@@ -186,11 +187,13 @@ app.get('/page', { preHandler: verificarToken }, async (request:FastifyRequest, 
 });
 
 
-
+//apagar o token
 app.post('/logout', (request:FastifyRequest, reply:FastifyReply)=>{
     
     reply.send({ mensagem: "Logout realizado com sucesso" });
 });
+
+
 
 
 

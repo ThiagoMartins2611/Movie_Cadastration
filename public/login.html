@@ -73,9 +73,10 @@
                     });
 
                     
-
+                    const data = await res.json();
+                    
                     if(res.ok && data.token){
-                        const data = await res.json();
+                       
                         
                         localStorage.setItem("token", data.token);
                         window.location.href = 'main.html';
