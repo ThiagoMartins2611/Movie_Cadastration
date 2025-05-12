@@ -11,7 +11,28 @@
     <header>
  
         <h1>Main</h1>
-   
+
+        <nav>
+            <ul>
+
+              <li><a href="#">Categorias</a></li>
+              <li><a href="#">Seus Filmes</a></li>
+              <li><a href="#">Usuarios</a></li>
+              
+            </ul>
+        </nav>
+
+        <form action="/search" method="get">
+            <input type="text" name="q" placeholder="Pesquisar...">
+            <button type="submit">🔍</button>
+        </form>
+
+        
+        <div id="user">
+            <img src="" alt="" >
+            
+        </div>
+
     </header>
 
 
@@ -22,7 +43,7 @@
     
         </ul>
     
-    
+        
         <button id="erase" onclick="erase()">apagar token</button>
 
     </main>

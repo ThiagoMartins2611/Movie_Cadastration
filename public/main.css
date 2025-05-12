@@ -25,6 +25,7 @@ header{
     width: 100vw;
     height: 10vh;
     background-color: var(--primary);
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -35,4 +36,8 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+a{
+    color: white;
 }
