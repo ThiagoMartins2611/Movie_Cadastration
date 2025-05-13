@@ -20,7 +20,7 @@ app.register(fastifyJwt, {
 });
 
 
-let myPassword:string = "Thiago@4740w";
+let myPassword:string = "";
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
