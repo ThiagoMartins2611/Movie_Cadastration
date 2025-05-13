@@ -27,9 +27,64 @@ header{
     background-color: var(--primary);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
+header h1{
+    margin-left: 30px;
+}
+
+header nav{
+    width: 30%;
+}
+
+header ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+header a{
+    color: white;
+    text-decoration: none;
+}
+
+
+header form{
+    display: flex;
+    height: 30px;
+    background-color: white;
+    width: 30%;
+}
+
+
+header form input{
+    margin-left: 10px;
+    outline: none;
+    width: 90%;
+}
+
+
+header form button{
+    background-color: transparent;
+    display: flex;
+}
+
+header form button svg{
+    width: 30px;
+    height: 30px;
+}
+
+header #user{
+    width: 50px;
+    height: 50px;
+    background-color: var(--second);
+
+    margin-right: 30px;
+
+    border-radius: 50%;
+}
 
 
 main{
@@ -38,6 +93,3 @@ main{
     align-items: center;
 }
 
-a{
-    color: white;
-}
