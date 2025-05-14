@@ -135,6 +135,18 @@ main{
     flex: 1;
 }
 
+#addMovie{
+    transform: translateX(100%);
+    margin-right: 40px;
+    margin-top: 9.5px;
+    transition: 0.3s;
+    display: flex;
+}
+
+#addMovie svg:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
 
 .mainColaboradores{
     display: flex;

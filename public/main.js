@@ -73,7 +73,7 @@ async function mostrarColaboradores(){
         let ul = document.getElementById("listaDeColaboradores");
         
         if(!ul){
-
+            main.innerHTML = "";
             ul = document.createElement("ul");
             ul.id = "listaDeColaboradores";
 
@@ -126,4 +126,10 @@ async function mostrarColaboradores(){
         alert("falha em conectar com servidor")
         console.log(error)
     }
+}
+
+
+
+function RedirectAddMovie(){
+    window.location.href = "cadastroFilmes.html";
 }
