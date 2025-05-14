@@ -93,7 +93,7 @@ async function mostrarColaboradores(){
             li.classList = "colaboradores"
 
             const img = document.createElement("img")
-            img.src = "";
+            img.src = "user.png";
             img.alt = "";
             img.classList = "photoUser"
 
