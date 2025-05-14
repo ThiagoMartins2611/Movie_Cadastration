@@ -10,14 +10,14 @@
 
     <header>
  
-        <h1>Main</h1>
+        <h1>MovieCritcs</h1>
 
         <nav>
             <ul>
 
-              <li><a href="#">Categorias</a></li>
-              <li><a href="#">Seus Filmes</a></li>
-              <li><a href="#">Colaboradores</a></li>
+              <li><p id="categorias" class="op">Categorias</p></li>
+              <li><p id="seusFilmes" class="op">Seus Filmes</p></li>
+              <li><p onclick="mostrarColaboradores()" id="colaboradores" class="op">Colaboradores</p></li>
               
             </ul>
         </nav>
@@ -35,74 +35,33 @@
             </button> 
         </form>
 
-        
-        <div id="user">
-            <img src="" alt="" >
-            
+        <div id="userArea">
+            <div id="user">
+                <img src="" alt="" >
+            </div>
+
+            <div id="dropDownMenu" class="menu hidden">
+                <a href="perfil.html" class="opDropMenu">Perfil</a>
+                <p onclick="erase()" class="opDropMenu">Logout</p>
+            </div>
         </div>
 
     </header>
 
 
 
-    <main>
+    <main id="main">
 
-        <ul id="lista">
-    
-        </ul>
-    
-        
-        <button id="erase" onclick="erase()">apagar token</button>
 
     </main>
     
     
 
-    <footer></footer>
+    <footer>
+        <h3 id="nomeDoSite">MovieCritcs</h3>
+        <h5 id="autoresDoSite">@2025 feito por Thiago, Rafael e Leticia Silva Alves</h5>
+    </footer>
    
-    <script>
-
-       window.onload = async () => {
-
-        const token = localStorage.getItem("token");
-
-        if(!token){
-            alert("token não encontrado, faça login... redirecionando para login");
-            window.location.href = "login.html";
-
-            return;
-        }
-
-        const res = await fetch('http://localhost:7000/page', {
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        });
-
-
-        if (!res.ok) {
-            localStorage.removeItem("token");
-            alert("Você não está logado ou o token expirou. Redirecionando para login...");
-            window.location.href = "login.html";
-        }
-
-        const data = await res.json();
-
-        if (res.ok) {
-            console.log("Usuário logado:", data.usuario);
-            // Exibir dados na tela, etc
-        } else {
-            alert("Você não está logado ou o token expirou. Redirecionando para login...");
-            window.location.href = "login.html";
-            
-        }
-    };
-
-    function erase(){
-        localStorage.removeItem("token");
-        window.location.href = "login.html";
-    }
-
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>

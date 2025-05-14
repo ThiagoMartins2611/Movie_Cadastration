@@ -2,6 +2,7 @@ import mysql, {Connection, ConnectionOptions} from 'mysql2/promise';
 import fastify, {FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 import fastifyJwt from '@fastify/jwt';
 import cors from '@fastify/cors';
+import { request } from 'http';
 
 
 const app = fastify()
@@ -20,7 +21,7 @@ app.register(fastifyJwt, {
 });
 
 
-let myPassword:string = "";
+let myPassword:string = "Thiago@4740w";
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
@@ -186,6 +187,33 @@ app.get('/page', { preHandler: verificarToken }, async (request:FastifyRequest, 
     });
 });
 
+
+app.get('/colaboradores', async (request:FastifyRequest, reply:FastifyReply)=>{
+
+    try{
+
+        const dbconn = await mysql.createConnection({
+            host: "localhost",
+            user: 'root',
+            password: myPassword,
+            database:"MovieCritcs",
+            port: 3306
+        });
+
+        const dados = await dbconn.query("SELECT * FROM users")
+
+        const colaboradores = dados[0]
+
+        reply.status(200).send({mensagem: "dados mandados", colaboradores})
+
+    }
+    catch(erro){
+        reply.status(400).send({mensagem: "não foi possivel conectar com o banco"})
+        console.log("erro ao conectar com o banco")
+    }
+
+
+});
 
 //apagar o token
 app.post('/logout', (request:FastifyRequest, reply:FastifyReply)=>{

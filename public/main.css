@@ -12,22 +12,27 @@
 html, body{
     width: 100%;
     height: 100%;
+
+    overflow-x: hidden;
 }
 
 body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100vh;
+    
 }
 
 
 header{
     width: 100vw;
-    height: 10vh;
+    height: 13vh;
     background-color: var(--primary);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-shrink: 0;
 }
 
 header h1{
@@ -45,9 +50,13 @@ header ul{
     
 }
 
-header a{
+header .op{
     color: white;
-    text-decoration: none;
+
+}
+
+header .op:hover{
+    cursor: pointer;
 }
 
 
@@ -76,6 +85,7 @@ header form button svg{
     height: 30px;
 }
 
+
 header #user{
     width: 50px;
     height: 50px;
@@ -84,12 +94,126 @@ header #user{
     margin-right: 30px;
 
     border-radius: 50%;
+    cursor: pointer;
 }
+
+.opDropMenu{
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
+.hidden{
+    display: none;
+}
+
+
+.menu{
+    position: absolute;
+    top: 90px;
+    transform: translateX(100px);
+    z-index: 99;
+
+    animation: MenuDropAppear 1s forwards 0.05s;
+}
+
+@keyframes MenuDropAppear {
+    0%{
+
+    }
+
+    100%{
+        transform: translateX(0px);
+    }
+}
+
 
 
 main{
+    width: 100%;
+    height: 100%;
+    flex: 1;
+}
+
+
+.mainColaboradores{
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
+#listaDeColaboradores{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.colaboradores{
+    display: flex;
+    border: 1px solid black;
+
+    padding: 10px;
+
+    gap: 20px;
+    
+
+    align-items: center;
+    transition: 0.3s;
+    animation: 0.7s itensAppear forwards;
+}
+
+
+
+.colaboradores:hover{
+    background-color: rgb(222, 222, 222);
+    transform: scale(1.01);
+}
+
+.infoColaboradores{
+    list-style: none;
+}
+
+.photoUser{
+    width: 75px;
+    height: 75px;
+    background-color: gray;
+    border-radius: 50%;
+}
+
+.nomeColaborador{
+    font-size: larger;
+}
+
+.emailColaborador{
+    font-size: medium;
+}
+
+
+@keyframes itensAppear {
+    0%{
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+footer{
+    width: 100vw;
+    height: 10vh;
+
+    background-color: var(--primary);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+    flex-shrink: 0;
+
+}
