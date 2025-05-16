@@ -1,0 +1,111 @@
+*{
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+html, body{
+    width: 100vw;
+    height: 100vh;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    background-color: var(--background);
+}
+
+#CadForms{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.cad{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    border-radius: 10px;
+
+    height: 50vh;
+    width: 35vw;
+
+    background-color: var(--primary);
+    transition: 0.5s;
+}
+
+.cad:hover{
+    transform: scale(1.1);
+}
+
+input{
+    border: 1px solid black;
+    outline: none;
+
+    width: 19vw;
+    height: 5vh;
+
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px 1px black;
+
+    background-color: transparent;
+    color: var(--second);
+
+    transition: 0.3s;
+}
+
+input::placeholder{
+    color: #937d00;
+}
+
+input:focus{
+    outline: none;
+}
+
+input:hover{
+    transform: scale(1.01);
+}
+
+input[type ="text"], input[type = "email"], input[type = "password"]{
+    padding-left: 1vw;
+}
+
+label{
+    margin-bottom: 2px;
+    font-size: smaller;
+}
+
+.inputsLocal{
+    display: flex;
+    flex-direction: column;
+}
+
+#buttonSubmit{
+    width: 200px;
+    height: 40px;
+}
+
+#buttonSubmit:hover{
+    cursor: pointer;
+}
+
+#buttonSubmit:active{
+    box-shadow: none;
+    outline: none;
+
+    transform: scale(0.99);
+}
+
+h1, label{
+    color: var(--second);
+}
