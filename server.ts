@@ -224,8 +224,9 @@ app.post('/logout', (request:FastifyRequest, reply:FastifyReply)=>{
 
 app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply)=>{
 
-    const info = await request.body;
-    console.log(info)
+    const {nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor} = request.body as any;
+    
+    
 
     reply.status(200).send({mensagem: "dados recebidos com sucesso"})
 });

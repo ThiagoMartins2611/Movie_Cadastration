@@ -95,7 +95,9 @@
     </form>
     
     <script>
-
+      const userCode = localStorage.getItem("token");
+      const user = JSON.parse(userCode)
+     
       async function cadastrar() {
         
         try {
@@ -108,8 +110,8 @@
           const lancamentoInput = document.getElementById("lancamento");
           const diretorInput = document.getElementById("diretor");
 
-          if(nomeInput.value != "", descricaoInput.value !="", generoInput.value != "", classificacaoInput != "", fotoInput.value != "", lancamentoInput != "", diretorInput != ""){
-            const nome = nomeInput.value;
+          if(nomeInput.value != "" && descricaoInput.value !="" && generoInput.value != "" && classificacaoInput != "" && fotoInput.value != "" && lancamentoInput != "" && diretorInput != ""){
+            const nomeFilme = nomeInput.value;
             const descricao = descricaoInput.value;
             const genero = generoInput.value;
             const classificacao = classificacaoInput.value;
@@ -117,8 +119,11 @@
             const lancamento = lancamentoInput.value;
             const diretor = diretorInput.value;
 
+            
+            
+
             const info = {
-              nome,
+              nomeFilme,
               descricao,
               genero,
               classificacao,
@@ -126,6 +131,8 @@
               lancamento,
               diretor
             }
+
+            
 
             const res = await fetch("http://localhost:7000/cadastrandoFilmes",{
               headers: {
@@ -136,17 +143,26 @@
               body: JSON.stringify(info)
             })
 
-            
+            nomeInput.value = "";
+            descricaoInput.value = "";
+            generoInput.value = "";
+            classificacaoInput.value = "";
+            fotoInput.value = "";
+            lancamentoInput.value = "";
+            diretorInput.value = "";
 
+
+            window.location.href = "main.html"
+
+          }else{
+            alert("coloque as informações");
           }
+
 
         } catch (error) {
           console.log(error)
           alert("falha ao conectar com o servidor")
         }
-
-
-
       }
     </script>
     
