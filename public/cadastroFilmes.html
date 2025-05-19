@@ -9,32 +9,146 @@
 
     <title>Cadastrar Filmes</title>
 
-    <script src="cadastroFilmes.css"></script>
+    <link rel="stylesheet" href="cadastroFilmes.css">
     <link rel="stylesheet" href="variables.css">
 
 </head>
 
 <body>
 
-    <div class="campo">
+    <h1> Cadastrar Filme </h1>
 
-        <form onsubmit="cadastrar()" id="formCadastro">
+    <form onsubmit="event.preventDefault(); cadastrar()">
 
-            <label for="NomeFilme">Nome do Filme</label>
-            <input type="text" name="NomeFilme" id="NomeFilme">
+      <div class="nomeArea">
 
-            <label for="categoria">Categoria</label>
-            <input type="" name="categoria" id="categoria">
+        <label for = "nomeFilme" > Nome do Filme </label>
+        <input type = "text" name = "nomeFilme" id = "nomeFilme">
 
-              <label for="NomeFilme">Nome do Filme</label>
-            <input type="text" name="NomeFilme" id="class">
+      </div>
 
-              <label for="NomeFilme">Nome do Filme</label>
-            <input type="text" name="NomeFilme" id="NomeFilme">
+      <div class="descricaoArea">
 
-        </form>
+        <label for = "descricao" > Descrição do Filme </label>
+        <input type = "text"  name="descricao" id="descricao">
 
-    </div>
+      </div>
+
+      <div class="generoArea">
+
+        <label for = "genero" > Gênero </label>
+        <input list = "generos" id = "genero" name = "genero" >
+
+        <datalist id = "generos" >
+  
+          <option value = "Ação" ></option>
+          <option value = "Aventura" ></option>
+          <option value = "Animação" ></option>
+          <option value = "Biografia" ></option>
+          <option value = "Comédia" ></option>
+          <option value = "Comédia Romântica" ></option>
+          <option value = "Documentário" ></option>
+          <option value = "Drama" ></option>
+          <option value = "Fantasia" ></option>
+          <option value = "Ficção Científica" ></option>
+          <option value = "Histórico" ></option>
+          <option value = "Musical" ></option>
+          <option value = "Religioso" ></option>
+          <option value = "Romance" ></option>
+          <option value = "Suspense" ></option>
+          <option value = "Terror" ></option>
+  
+        </datalist>
+
+      </div>
+
+      <div class="classificacao">
+
+        <label for = "classificacao" > Classificação </label>
+        <input type = "number" name="classificacao" id="classificacao">
+
+      </div>
+    
+      <div class="foto">
+
+        <label for = "Foto" > Foto </label>
+        <input type = "text" name="foto" id="foto">
+
+      </div>
+
+      <div class="lancamento">
+
+        <label for = "lancamento" > Data de Lançamento </label>
+        <input type = "date" name="lancamento" id="lancamento" >
+
+      </div>
+
+      <div class="diretor">
+
+        <label for = "diretor" > Diretor do Filme </label>
+        <input type = "text" name="diretor" id="diretor" >
+
+      </div>
+
+      <input type = "submit" value = "Cadastrar">
+
+    </form>
+    
+    <script>
+
+      async function cadastrar() {
+        
+        try {
+          
+          const nomeInput = document.getElementById("nomeFilme");
+          const descricaoInput = document.getElementById("descricao");
+          const generoInput = document.getElementById("genero");
+          const classificacaoInput = document.getElementById("classificacao");
+          const fotoInput = document.getElementById("foto");
+          const lancamentoInput = document.getElementById("lancamento");
+          const diretorInput = document.getElementById("diretor");
+
+          if(nomeInput.value != "", descricaoInput.value !="", generoInput.value != "", classificacaoInput != "", fotoInput.value != "", lancamentoInput != "", diretorInput != ""){
+            const nome = nomeInput.value;
+            const descricao = descricaoInput.value;
+            const genero = generoInput.value;
+            const classificacao = classificacaoInput.value;
+            const foto = fotoInput.value;
+            const lancamento = lancamentoInput.value;
+            const diretor = diretorInput.value;
+
+            const info = {
+              nome,
+              descricao,
+              genero,
+              classificacao,
+              foto,
+              lancamento,
+              diretor
+            }
+
+            const res = await fetch("http://localhost:7000/cadastrandoFilmes",{
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              method: 'POST',
+
+              body: JSON.stringify(info)
+            })
+
+            
+
+          }
+
+        } catch (error) {
+          console.log(error)
+          alert("falha ao conectar com o servidor")
+        }
+
+
+
+      }
+    </script>
     
 </body>
 
