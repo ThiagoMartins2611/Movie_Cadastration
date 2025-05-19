@@ -7,6 +7,8 @@
 html, body{
     width: 100vw;
     height: 100vh;
+
+    overflow: hidden;
 }
 
 body{
@@ -34,7 +36,6 @@ body{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
     margin-top: 10%;
 
     border-radius: 10px;
@@ -46,8 +47,27 @@ body{
     transition: 0.5s;
 }
 
+.cad::after{
+    content: "";
+    background: black;
+    width: 100%;
+    height: 20%;
+    position: absolute;
+    top: 80%;
+    transition: opacity 0.5s; 
+    bottom: 0;  
+    
+    opacity: 0.7;
+}
+
 .cad:hover{
-    transform: scale(1.1);
+      box-shadow: 0 0 10px var(--primary),
+                  0 0 20px var(--second)
+}
+
+.cad:hover::after{
+    position: absolute;
+    opacity: 0;
 }
 
 input{
@@ -117,4 +137,15 @@ img{
     width: 100%;
     height: 20%;
    
+}
+
+@media screen and (max-width: 800px) {
+    .cad{
+        width: 90%;
+        height: 90%;
+    }
+
+    input[type ="text"], input[type = "email"], input[type = "password"]{
+        width: 100%;
+    }
 }
