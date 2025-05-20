@@ -32,7 +32,38 @@ window.onload = async () => {
             window.location.href = "login.html";
             
         }
+
+
+        mostrar();
 };
+
+//Leticia
+async function mostrar() {
+    
+    try{
+    const res = await fetch("http://localhost:7000/filmes");
+    
+    const data = await res.json();
+    const filmes = data.filmes;
+
+    
+
+    console.log(data.mensagem)
+
+    }catch(erro){
+        alert("erro ao conectar ao servidor");
+        console.log(erro);
+    }
+}
+
+const titulo = document.getElementById("titulo");
+const espacoDosFilmes = document.getElementById("filmes");
+titulo.onclick = () => {
+    espacoDosFilmes.innerHTML = "";
+    mostrar();
+}
+
+/////////////////
 
 function erase(){
     localStorage.removeItem("token");

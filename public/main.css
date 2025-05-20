@@ -40,6 +40,10 @@ header h1{
     margin-left: 30px;
 }
 
+#titulo{
+    cursor: pointer;
+}
+
 header nav{
     width: 30%;
 }

@@ -187,6 +187,27 @@ app.get('/page', { preHandler: verificarToken }, async (request:FastifyRequest, 
     });
 });
 
+app.get('/filmes', async(request:FastifyRequest, reply:FastifyReply) =>{
+
+    try{
+        const dbconn = await mysql.createConnection({
+            host: "localhost",
+            user: 'root',
+            password: myPassword,
+            database:"MovieCritcs",
+            port: 3306
+        });
+
+        const dados = await dbconn.query("SELECT * FROM filmes");
+
+        const filmes = dados[0];
+
+        reply.status(200).send({mensagem: "dados enviados", filmes});
+
+    }catch{
+        console.log("erro ao tentar conectar com o banco")
+    }
+});
 
 app.get('/colaboradores', async (request:FastifyRequest, reply:FastifyReply)=>{
 
@@ -237,7 +258,7 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
 
     await dbconn.query(
         
-        `CREATE TABLE IF NOT EXIST filmes(
+        `CREATE TABLE IF NOT EXISTS filmes(
 
             idFilme INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
             userId INT NOT NULL,
@@ -247,17 +268,17 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
             classificacao INT UNSIGNED NOT NULL,
             foto VARCHAR(300) NOT NULL,
             lancamento DATE NOT NULL,
-            diretor VARCHAR(60) NOT NULL,
+            diretor VARCHAR(60) NOT NULL
         ) 
-        `   
+        `);
+
+    await dbconn.query("INSERT INTO filmes (userId, nome, descricao, genero, classificacao, foto, lancamento, diretor) VALUES (?,?,?,?,?,?,?,?)", 
+        [userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor]
     );
 
-    await dbconn.query("SELECT * FROM filmes WHERE userId = ? AND nome = ? AND descricao = ? AND genero = ? AND classificacao = ? AND foto = ? AND lancamento = ? AND diretor = ?", [userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor]);
-
-
-    console.log(request.body)
 
     reply.status(200).send({mensagem: "filme cadastrado"})
+    console.log("filme cadastrado")
     }
     catch(erro){
         console.log("erro ao conectar com o banco")
