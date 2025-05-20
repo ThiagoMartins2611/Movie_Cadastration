@@ -13,19 +13,49 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: var(--background);
 }
 
 .boxLogin{
     display: flex;
     flex-direction: column;
 
+    background-color: var(--primary);
+
+    border-radius: 10px;
+
     width: 35vw;
     height: 50vh;
+
+    opacity: 0;
 
     border: 1px solid black;
 
     justify-content: space-around;
     align-items: center;
+
+    animation: 1s appear forwards,
+               5s mov 1s infinite;
+}
+
+@keyframes appear {
+    0%{
+        transform: translateY(-100px);
+    }
+
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes mov {
+    0%{
+        transform: translateY(0);
+    }
+
+    50%{
+         transform: translateY(10px);
+    }
 }
 
 
@@ -34,6 +64,8 @@ body{
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    width: 90%;
+    height: 60%;
     gap: 20px;
 }
 
@@ -48,8 +80,23 @@ input{
     outline: none;
 
     background-color: transparent;
+    width: 100%;
+    height: 100%;
+    padding-left: 7px;
 
-    transition: 1s;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px 1px black;
+
+    transition: 0.3s;
+}
+
+input:hover{
+    transform: scale(1.02);
+}
+
+input[type = "submit"]{
+    padding-left: 0;
+    font-size: 105%;
 }
 
 label{
@@ -59,11 +106,20 @@ label{
 .inputsLocal{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 25%;
 }
 
+label{
+    align-self: flex-start;
+}
+
+
 #buttonSubmit{
-    width: 150px;
-    height: 30px;
+    width: 50%;
+    height: 50px;
 }
 
 #buttonSubmit:hover{
@@ -72,4 +128,52 @@ label{
 
 #possivelErro{
     color: red;
+}
+
+
+
+a, h1, label{
+    color: var(--second);
+    font-size: 100%;
+}
+
+h1{
+    font-size: 6vh;
+}
+
+a{
+    text-decoration: none;
+    position: relative;
+    font-size: 130%;
+}
+
+a::after{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    transform: scaleX(0);
+    background: var(--second);
+    transition: 0.3s;
+}
+
+a:hover::after{
+    transform: scale(1);
+}
+
+@media screen and (max-width: 900px){
+    .boxLogin{
+        width: 90%;
+        height: 90%;
+    }
+
+    form{
+        width: 100%;
+        height: 50%;
+    }
+    
+    .inputsLocal{
+        width: 50%;
+    }
 }
