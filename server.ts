@@ -21,7 +21,7 @@ app.register(fastifyJwt, {
 });
 
 
-let myPassword:string = "Thiago@4740w";
+let myPassword:string = "";
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
@@ -225,10 +225,38 @@ app.post('/logout', (request:FastifyRequest, reply:FastifyReply)=>{
 app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply)=>{
 
     const {userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor} = request.body as any;
-    
-    console.log(request.body);
+  
+    const dbconn = await mysql.createConnection({
+        host: "localhost",
+        user: 'root',
+        password: myPassword,
+        database:"MovieCritcs",
+        port: 3306
+    });
 
-    reply.status(200).send({user: request.user})
+    await dbconn.query(
+        
+        `CREATE TABLE IF NOT EXIST filmes(
+
+            idFilme INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            userId INT NOT NULL,
+            nome VARCHAR(60) NOT NULL,
+            descricao VARCHAR(300) NOT NULL,
+            genero VARCHAR(45) NOT NULL,
+            classificacao INT UNSIGNED NOT NULL,
+            foto VARCHAR(300) NOT NULL,
+            lancamento DATE NOT NULL,
+            diretor VARCHAR(60) NOT NULL,
+        ) 
+        `   
+    );
+
+    await dbconn.query("SELECT * FROM filmes WHERE userId = ? AND nome = ? AND descricao = ? AND genero = ? AND classificacao = ? AND foto = ? AND lancamento = ? AND diretor = ?", [userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor]);
+
+    
+    console.log(request.body)
+
+    reply.status(200).send({mensagem: "filme cadastrado"})
 });
 
 

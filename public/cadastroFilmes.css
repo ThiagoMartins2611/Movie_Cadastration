@@ -9,6 +9,9 @@ html, body{
     height: 100vh;
 }
 
+textarea{
+    border: 1px solid black;
+}
 
 input{
     border: 1px solid black;

@@ -44,28 +44,17 @@ body{
     transition: 0.5s;
 }
 
-.cad::after{
-    content: "";
-    background: black;
-    width: 100vw;
-    height: 50%;
-    position: absolute;
-    top: 104%;
-    transition: opacity 0.5s; 
-    bottom: 0;  
-    z-index: -1;
-    opacity: 0.7;
-}
+
 
 .cad:hover{
     box-shadow: 0 0 10px var(--primary),
                 0 0 20px var(--second);
 }
 
-.cad:hover::after{
-    position: absolute;
-    opacity: 0;
+.cad:hover ~ #cadeiras{
+    filter:saturate(1);
 }
+
 
 form {
     display: flex;
@@ -121,6 +110,7 @@ input[type ="text"], input[type = "email"], input[type = "password"]{
     padding-left: 1vw;
 }
 
+
 #buttonSubmit{
     width: 200px;
     height: 70px;
@@ -147,6 +137,9 @@ h1{
 img{
     width: 100%;
     height: 20%;
+    filter:saturate(0.2);
+
+    transition: 0.3s;
 }
 
 @media screen and (max-width: 1200px) {
