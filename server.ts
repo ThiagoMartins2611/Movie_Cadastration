@@ -226,6 +226,7 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
 
     const {userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor} = request.body as any;
   
+    try{
     const dbconn = await mysql.createConnection({
         host: "localhost",
         user: 'root',
@@ -253,10 +254,14 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
 
     await dbconn.query("SELECT * FROM filmes WHERE userId = ? AND nome = ? AND descricao = ? AND genero = ? AND classificacao = ? AND foto = ? AND lancamento = ? AND diretor = ?", [userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor]);
 
-    
+
     console.log(request.body)
 
     reply.status(200).send({mensagem: "filme cadastrado"})
+    }
+    catch(erro){
+        console.log("erro ao conectar com o banco")
+    }
 });
 
 
