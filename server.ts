@@ -21,7 +21,7 @@ app.register(fastifyJwt, {
 });
 
 
-let myPassword:string = "";
+let myPassword:string = "Thiago@4740w";
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
@@ -224,11 +224,11 @@ app.post('/logout', (request:FastifyRequest, reply:FastifyReply)=>{
 
 app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply)=>{
 
-    const {nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor} = request.body as any;
+    const {userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor} = request.body as any;
     
-    
+    console.log(request.body);
 
-    reply.status(200).send({mensagem: "dados recebidos com sucesso"})
+    reply.status(200).send({user: request.user})
 });
 
 

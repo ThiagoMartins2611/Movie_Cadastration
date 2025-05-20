@@ -95,9 +95,25 @@
     </form>
     
     <script>
-      const userCode = localStorage.getItem("token");
-      const user = JSON.parse(userCode)
-     
+      ///////////////////////////////////////
+      function decodeJWT(token) {
+      const [headerB64, payloadB64] = token.split('.');
+
+      const base64UrlDecode = str =>
+      decodeURIComponent(
+      atob(str.replace(/-/g, '+').replace(/_/g, '/'))
+        .split('')
+        .map(c => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+        .join('')
+      );
+
+     const header = JSON.parse(base64UrlDecode(headerB64));
+     const payload = JSON.parse(base64UrlDecode(payloadB64));
+
+     return { header, payload };
+     }
+      ///////////////////////////////////////
+ 
       async function cadastrar() {
         
         try {
@@ -119,10 +135,13 @@
             const lancamento = lancamentoInput.value;
             const diretor = diretorInput.value;
 
-            
+            const userCode = localStorage.getItem("token");
+            const user = decodeJWT(userCode)
+            const userId = user.payload.id
             
 
             const info = {
+              userId,
               nomeFilme,
               descricao,
               genero,
@@ -132,16 +151,21 @@
               diretor
             }
 
+
             
 
-            const res = await fetch("http://localhost:7000/cadastrandoFilmes",{
+            const resPost = await fetch("http://localhost:7000/cadastrandoFilmes",{
               headers: {
                 'Content-Type': 'application/json'
               },
+              
               method: 'POST',
 
               body: JSON.stringify(info)
             })
+
+  
+
 
             nomeInput.value = "";
             descricaoInput.value = "";
