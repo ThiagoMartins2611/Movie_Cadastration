@@ -23,29 +23,34 @@
         <form onsubmit="event.preventDefault(); formSubmit()" id="CadForms">
 
             <div class="inputsLocal">
+
                 <label class="lab" for="nome">Nome</label>
+
                 <input placeholder="Digite seu nome completo" type="text" name="nome" id="nome">
-            </div>
 
+            </div>
             <div class="inputsLocal">
+
                 <label class="lab" for="email">Email</label>
-                <input placeholder="Digite seu email" type="email" name="email" id="email">
-            </div>
 
+                <input placeholder="Digite seu email" type="email" name="email" id="email">
+
+            </div>
             <div class="inputsLocal">
+
                 <label class="lab" for="senha">Senha</label>
+                
                 <input placeholder="Digite sua senha" type="password" name="senha" id="senha">
+
             </div>
         
-
-            <input id="buttonSubmit" type="submit" value="Cadastrar">
+                <input id="buttonSubmit" type="submit" value="Cadastrar">
 
         </form>
 
     </div>
 
-    
-     <img id="cadeiras" src="cadeiras.png" alt="">
+    <img id="cadeiras" src="cadeiras.png" alt="">
    
     <script>
 
@@ -56,14 +61,11 @@
             const inputNome = document.getElementById("nome");
             const inputEmail = document.getElementById("email");
             const inputSenha = document.getElementById("senha");
-            
             const labels = document.getElementsByClassName("lab");
-
             const nome = inputNome.value;
             const email = inputEmail.value;
             const senha = inputSenha.value;
 
-        
             if(nome != '' && email != '' && senha != ''){
                 const cad = {
                     nome,

@@ -51,24 +51,21 @@ async function mostrar() {
 
     console.log(data.mensagem);
  
-    filmes.forEach (filme => {
+    filmes.forEach((filme) => {
 
-            const card = document.createElement("div");
+        const card = document.createElement("div")
+        card.classList = "card";
+        
+        card.innerHTML = `
+            <img src="${filme.foto}" alt="" class="fotoFilme">
+            <div class="textContent">
+                <h1 class="tituloFilme">${filme.nome}</h1>
+                <h3 class="generoFilme">${filme.genero}</h3>
+            </div>
 
-            card.classList.add("card-filme");
-            card.innerHTML = 
+        `
 
-            `
-                <img src="${filme.foto}" alt="Capa de ${filme.titulo}" class="imagem-filme">
-
-                <h3>${filme.titulo}</h3>
-
-                <p>Categoria: ${filme.categoria}</p>
-
-            `;
-
-            espacoDosFilmes.appendChild(filme);
-
+        espacoDosFilmes.appendChild(card);
     });
     
     }catch(erro){

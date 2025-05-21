@@ -21,7 +21,7 @@ app.register(fastifyJwt, {
 });
 
 
-let myPassword:string = "Mysenha2626.";
+let myPassword:string = "";
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
@@ -268,9 +268,10 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
             descricao LONGTEXT,
             genero VARCHAR(45),
             classificacao INT UNSIGNED,
-            foto LONGTEXT NOT NULL,
-            lancamento VARCHAR(30),
-            diretor VARCHAR(60)
+            foto VARCHAR(255) NOT NULL,
+            lancamento DATE,       
+            diretor VARCHAR(60),
+            FOREIGN KEY (userid) REFERENCES users(id)
         ) 
         `);
 
@@ -282,6 +283,8 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
      catch (error) {
         console.log(error)
         console.log("deu errado")
+
+        return
     }
     
 
