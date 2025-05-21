@@ -37,30 +37,57 @@ window.onload = async () => {
         mostrar();
 };
 
-//Leticia
+// Letícia
+
+let espacoDosFilmes = document.getElementById("filmes");
+
 async function mostrar() {
     
     try{
-    const res = await fetch("http://localhost:7000/filmes");
-    
-    const data = await res.json();
+
+    const res = await fetch ("http://localhost:7000/filmes");
+    const data = await res.json ();
     const filmes = data.filmes;
 
+    console.log(data.mensagem);
+ 
+    filmes.forEach (filme => {
+
+            const card = document.createElement("div");
+
+            card.classList.add("card-filme");
+            card.innerHTML = 
+
+            `
+                <img src="${filme.foto}" alt="Capa de ${filme.titulo}" class="imagem-filme">
+
+                <h3>${filme.titulo}</h3>
+
+                <p>Categoria: ${filme.categoria}</p>
+
+            `;
+
+            espacoDosFilmes.appendChild(filme);
+
+    });
     
-
-    console.log(data.mensagem)
-
     }catch(erro){
+
         alert("erro ao conectar ao servidor");
+
         console.log(erro);
     }
 }
 
 const titulo = document.getElementById("titulo");
-const espacoDosFilmes = document.getElementById("filmes");
+
+
 titulo.onclick = () => {
+
     espacoDosFilmes.innerHTML = "";
+
     mostrar();
+
 }
 
 /////////////////

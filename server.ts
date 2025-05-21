@@ -21,7 +21,7 @@ app.register(fastifyJwt, {
 });
 
 
-let myPassword:string = "";
+let myPassword:string = "Mysenha2626.";
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
@@ -245,9 +245,11 @@ app.post('/logout', (request:FastifyRequest, reply:FastifyReply)=>{
 
 app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply)=>{
 
-    const {userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor} = request.body as any;
-  
+    const {userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor} = request.body as {userId:number, nomeFilme:string, descricao:string, genero:string, classificacao:number, foto:string, lancamento:string, diretor:string};
+
+
     try{
+
     const dbconn = await mysql.createConnection({
         host: "localhost",
         user: 'root',
@@ -260,25 +262,35 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
         
         `CREATE TABLE IF NOT EXISTS filmes(
 
-            idFilme INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            userId INT NOT NULL,
-            nome VARCHAR(60) NOT NULL,
-            descricao VARCHAR(300) NOT NULL,
-            genero VARCHAR(45) NOT NULL,
-            classificacao INT UNSIGNED NOT NULL,
-            foto VARCHAR(300) NOT NULL,
-            lancamento DATE NOT NULL,
-            diretor VARCHAR(60) NOT NULL
+            idfilme INT AUTO_INCREMENT PRIMARY KEY,
+            userid INT,
+            nome VARCHAR(60),
+            descricao LONGTEXT,
+            genero VARCHAR(45),
+            classificacao INT UNSIGNED,
+            foto LONGTEXT NOT NULL,
+            lancamento VARCHAR(30),
+            diretor VARCHAR(60)
         ) 
         `);
 
-    await dbconn.query("INSERT INTO filmes (userId, nome, descricao, genero, classificacao, foto, lancamento, diretor) VALUES (?,?,?,?,?,?,?,?)", 
-        [userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor]
-    );
+    try {
+
+        await dbconn.query("INSERT INTO filmes (userid, nome, descricao, genero, classificacao, foto, lancamento, diretor) VALUES (?,?,?,?,?,?,?,?)", [userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor]);
+    
+    }
+     catch (error) {
+        console.log(error)
+        console.log("deu errado")
+    }
+    
+
+    console.log(userId);
 
 
     reply.status(200).send({mensagem: "filme cadastrado"})
     console.log("filme cadastrado")
+    await dbconn.end();
     }
     catch(erro){
         console.log("erro ao conectar com o banco")

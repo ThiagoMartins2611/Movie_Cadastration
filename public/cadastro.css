@@ -44,8 +44,6 @@ body{
     transition: 0.5s;
 }
 
-
-
 .cad:hover{
     box-shadow: 0 0 10px var(--primary),
                 0 0 20px var(--second);
@@ -54,7 +52,6 @@ body{
 .cad:hover ~ #cadeiras{
     filter:saturate(1);
 }
-
 
 form {
     display: flex;
@@ -109,7 +106,6 @@ input:hover{
 input[type ="text"], input[type = "email"], input[type = "password"]{
     padding-left: 1vw;
 }
-
 
 #buttonSubmit{
     width: 200px;
