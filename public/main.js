@@ -87,6 +87,67 @@ titulo.onclick = () => {
 
 }
 
+document.getElementById("generoTexto").addEventListener("click", function () {
+    document.getElementById("generoMenu").classList.toggle("visible");
+});
+
+const OpsGenero = document.getElementsByClassName("opGenero");
+
+Array.from(OpsGenero).forEach(op => {
+
+    op.addEventListener("click", () => {
+        document.getElementById("generoMenu").classList.toggle("visible");
+        espacoDosFilmes.innerHTML = "";
+        mostrarGenero(op.textContent)
+    });
+});
+
+async function mostrarGenero(generoSelecionado){
+    try{
+        const objgeneroSelecionado = {generoSelecionado};
+        const res = await fetch("http://localhost:7000/mostrarPorGenero",{
+
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            method: "POST",
+                        
+            body: JSON.stringify(objgeneroSelecionado)
+
+        });
+
+        const dados = await res.json() 
+       
+        if(res.status = 200){
+
+            console.log(dados.mensagem);
+
+            const filmes = dados.filmes;
+
+            filmes.forEach((filme) => {
+    
+            const card = document.createElement("div")
+            card.classList = "card";
+            
+            card.innerHTML = `
+                <img src="${filme.foto}" alt="" class="fotoFilme">
+                <div class="textContent">
+                    <h1 class="tituloFilme">${filme.nome}</h1>
+                    <h3 class="generoFilme">${filme.genero}</h3>
+                </div>
+    
+            `
+            espacoDosFilmes.appendChild(card);
+        });
+
+        }
+
+    }catch(erro){
+        alert("Erro ao conectar ao servidor")
+    }
+}
+
 /////////////////
 
 function erase(){
@@ -182,8 +243,6 @@ async function mostrarColaboradores(){
         console.log(error)
     }
 }
-
-
 
 function RedirectAddMovie(){
     window.location.href = "cadastroFilmes.html";

@@ -21,7 +21,7 @@ app.register(fastifyJwt, {
 });
 
 
-let myPassword:string = "";
+let myPassword:string = "Mysenha2626.";
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
@@ -287,9 +287,7 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
         return
     }
     
-
     console.log(userId);
-
 
     reply.status(200).send({mensagem: "filme cadastrado"})
     console.log("filme cadastrado")
@@ -300,7 +298,33 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
     }
 });
 
+app.post('/mostrarPorGenero', async (request:FastifyRequest, reply:FastifyReply)=>{
 
+    const {generoSelecionado} = request.body as {generoSelecionado:string}
+
+    console.log(generoSelecionado);
+
+    try{
+        const dbconn = await mysql.createConnection({
+        host: "localhost",
+        user: 'root',
+        password: myPassword,
+        database:"MovieCritcs",
+        port: 3306
+        });
+
+        const dados = await dbconn.query("SELECT * FROM filmes WHERE genero = ?", [generoSelecionado]);
+        const filmes = dados[0];
+
+        console.log(filmes);
+     
+        reply.status(200).send({mensagem:"Gênero analisado com sucesso, filmes enviados", filmes})
+    }catch(erro){
+
+        console.log("Erro ao conectar com o banco")
+
+    }
+});
 
 app.listen({port: 7000}, (err, address) =>{
     if (err) {

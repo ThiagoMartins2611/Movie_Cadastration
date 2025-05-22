@@ -242,6 +242,40 @@ main{
     flex-direction: column;
 }
 
+#generoMenu{
+    display: none;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    top: 13%;
+    color:var(--second);
+    z-index:999;
+    align-items: center;
+    background-color: var(--primary);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 20%;
+    left:15%;
+}
+
+#generoMenu.visible {
+    display: flex;
+}
+
+.opGenero{
+    margin-bottom: 10px;
+}
+
+.opGenero:hover{
+    color:var(--quart);
+    cursor: pointer;
+}
+
+#OpReligioso{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
 .colaboradores{
     display: flex;
     border: 1px solid black;
