@@ -3,6 +3,7 @@ import fastify, {FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 import fastifyJwt from '@fastify/jwt';
 import cors from '@fastify/cors';
 import { request } from 'http';
+import { convertToObject } from 'typescript';
 
 
 const app = fastify()
@@ -21,7 +22,7 @@ app.register(fastifyJwt, {
 });
 
 
-let myPassword:string = "Mysenha2626.";
+let myPassword:string = "";
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
@@ -325,6 +326,74 @@ app.post('/mostrarPorGenero', async (request:FastifyRequest, reply:FastifyReply)
 
     }
 });
+
+//rafel
+app.post('/salvarComentarios', async (request: FastifyRequest, reply: FastifyReply) => {
+  const { idfilme, userid, comentario } = request.body as any;
+    
+  try {
+    const dbconn = await mysql.createConnection({
+      host: "localhost",
+      user: 'root',
+      password: myPassword,
+      database: "MovieCritcs",
+      port: 3306
+    });
+
+    await dbconn.query(`
+      CREATE TABLE IF NOT EXISTS comentarios (
+        idComentario INT AUTO_INCREMENT PRIMARY KEY,
+        idfilme INT NOT NULL,
+        userid INT NOT NULL,
+        comentario LONGTEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    //  FOREIGN KEY (idfilme) REFERENCES filmes(idfilme),
+    //FOREIGN KEY (userid) REFERENCES users(id)
+
+    // Corrigido: inserir na tabela comentarios, não filmes
+    await dbconn.query(
+      "INSERT INTO comentarios (idfilme, userid, comentario) VALUES (?, ?, ?)",
+      [idfilme, userid, comentario]
+    );
+
+    await dbconn.end();
+
+    reply.send({ success: true, message: 'Comentário salvo com sucesso!' });
+
+  } catch (erro) {
+    console.error("Erro ao conectar com o banco:", erro);
+    reply.status(500).send({ success: false, message: 'Erro ao salvar comentário' });
+  }
+});
+
+
+app.get('/obterComentarios', async (request, reply) => {
+  try {
+    const dbconn = await mysql.createConnection({
+      host: "localhost",
+      user: 'root',
+      password: myPassword,
+      database: "MovieCritcs",
+      port: 3306
+    });
+
+    const [rows] = await dbconn.query("SELECT idfilme, userid, comentario, created_at FROM comentarios ORDER BY created_at DESC");
+
+    await dbconn.end();
+
+    reply.send({ success: true, comentarios: rows });
+
+  } catch (erro) {
+    console.error("Erro ao conectar com o banco:", erro);
+    reply.status(500).send({ success: false, message: 'Erro ao obter comentários' });
+  }
+});
+
+
+
 
 app.listen({port: 7000}, (err, address) =>{
     if (err) {
