@@ -368,8 +368,8 @@ app.get('/meusFilmes', { preHandler: verificarToken }, async (request:FastifyReq
 
 //rafael
 app.post('/salvarComentarios', async (request: FastifyRequest, reply: FastifyReply) => {
-  const { idfilme, userid, comentario } = request.body as any;
-    
+  const {userid, comentario } = request.body as any;
+    console.log(request.body)
   try {
     const dbconn = await mysql.createConnection({
       host: "localhost",
@@ -382,20 +382,19 @@ app.post('/salvarComentarios', async (request: FastifyRequest, reply: FastifyRep
     await dbconn.query(`
       CREATE TABLE IF NOT EXISTS comentarios (
         idComentario INT AUTO_INCREMENT PRIMARY KEY,
-        idfilme INT NOT NULL,
         userid INT NOT NULL,
         comentario LONGTEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (userid) REFERENCES users(id)
       )
     `);
 
-    //  FOREIGN KEY (idfilme) REFERENCES filmes(idfilme),
-    //FOREIGN KEY (userid) REFERENCES users(id)
+  
 
     // Corrigido: inserir na tabela comentarios, não filmes
     await dbconn.query(
-      "INSERT INTO comentarios (idfilme, userid, comentario) VALUES (?, ?, ?)",
-      [idfilme, userid, comentario]
+      "INSERT INTO comentarios (userid, comentario) VALUES (?, ?)",
+      [userid, comentario]
     );
 
     await dbconn.end();
@@ -419,9 +418,22 @@ app.get('/obterComentarios', async (request:FastifyRequest, reply:FastifyReply) 
       port: 3306
     });
 
-    const [rows] = await dbconn.query("SELECT idfilme, userid, comentario, created_at FROM comentarios ORDER BY created_at DESC");
+     await dbconn.query(`
+      CREATE TABLE IF NOT EXISTS comentarios (
+        idComentario INT AUTO_INCREMENT PRIMARY KEY,
+        userid INT NOT NULL,
+        comentario LONGTEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    const rows = await dbconn.query("SELECT userid, comentario, created_at FROM comentarios ORDER BY created_at DESC");
+    
+    console.log(rows)
+    
 
     await dbconn.end();
+
 
     reply.send({ success: true, comentarios: rows });
 
