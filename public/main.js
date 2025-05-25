@@ -408,6 +408,7 @@ document.getElementById('filmes').addEventListener('click', function(e) {
     if (card) {
 
         const filme = JSON.parse(card.dataset.filme);
+        
         const dataSQL = filme.lancamento;
         const data = new Date(dataSQL);
         const dataFormatada = new Intl.DateTimeFormat('pt-BR').format(data);
@@ -435,16 +436,105 @@ document.getElementById('filmes').addEventListener('click', function(e) {
             </div>
 
             <div class="comentarios">
-                
+
+                <div class="mandarComentario">
+
+                    <form class="comentarioForm" onsubmit="return false;">
+                        
+                        <label for="Comentario">Comentário sobre o Filme</label>
+                        <div class="textAreaEbutton">
+                            <textarea class="Comentario" name="Comentario" rows="5" required placeholder="Digite seu comentário aqui..."></textarea>
+                            <input type="button" value="Comentar" onclick="adicionarComentario()">
+                        </div>
+                    </form>
+
+                </div>
+
+
+                <div class="comentariosContainer"></div>
             </div>
-
-
         
             `;
         
 
         cardExpandido.style.display = 'flex';
         overlay.style.display = 'flex';
+
+
+
+         async function carregarComentarios() {
+      try {
+        const res = await fetch('http://localhost:7000/obterComentarios');
+        if (!res.ok) throw new Error('Erro ao carregar comentários');
+
+        const data = await res.json();
+
+        if (data.success) {
+          const container = document.getElementById('comentariosContainer');
+          container.innerHTML = ''; // limpa
+
+          data.comentarios.forEach(c => {
+            const div = document.createElement('div');
+            div.className = 'comentario-box';
+            div.innerHTML = `
+              <strong>Filme ID:</strong> ${c.idfilme}<br>
+              <strong>Usuário ID:</strong> ${c.userid}<br>
+              <p>${c.comentario}</p>
+              <small>Comentado em: ${new Date(c.created_at).toLocaleString()}</small>
+            `;
+            container.appendChild(div);
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Função para enviar novo comentário
+    async function adicionarComentario() {
+      const idfilme = document.getElementById('idfilme').value.trim();
+      const userid = document.getElementById('userid').value.trim();
+      const comentario = document.getElementById('Comentario').value.trim();
+
+      if (!idfilme || !userid || !comentario) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:7000/salvarComentarios', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ idfilme, userid, comentario })
+        });
+
+        if (!response.ok) {
+          alert('Erro ao salvar comentário no servidor.');
+          return;
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Atualiza lista de comentários após adicionar
+          carregarComentarios();
+
+          // Limpa formulário
+          document.getElementById('idfilme').value = '';
+          document.getElementById('userid').value = '';
+          document.getElementById('Comentario').value = '';
+        } else {
+          alert('Erro ao salvar comentário: ' + data.message);
+        }
+      } catch (error) {
+        alert('Erro na conexão com o servidor.');
+        console.error(error);
+      }
+    }
+
+    // Carregar comentários assim que a página abrir
+    card.onclick = carregarComentarios;
+
     }
 });
 

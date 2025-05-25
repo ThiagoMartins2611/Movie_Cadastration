@@ -36,10 +36,12 @@ header{
     justify-content: space-between;
     flex-shrink: 0;
     position: relative;
+   
 }
 
 header h1{
     margin-left: 30px;
+    font-family: "Cinzel Decorative", serif;
 }
 
 #titulo{
@@ -54,6 +56,7 @@ header ul{
     list-style: none;
     display: flex;
     justify-content: space-around;
+    font-family: "Playfair Display", serif;
     
 }
 
@@ -166,10 +169,10 @@ main{
 
 #addMovie{
     display: flex;
-    position: absolute;
+    position: relative;
     left: 98%;
     margin-top: 10px;
-    transform: translateX(-50%);
+    transform: translateX(-1%);
 }
 
 #addMovie g{
@@ -193,8 +196,8 @@ main{
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    gap: 20px;
-    padding: 20px;
+    padding: 40px;
+    padding-top: 0;
     box-sizing: border-box;
 }
 
@@ -204,7 +207,7 @@ main{
     width: 200px;
     height: 250px;
     border: 2px solid var(--primary);
-
+    
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -247,6 +250,12 @@ main{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    font-family: "Roboto Serif", serif;
+    
+}
+
+.textContent h1{
+    font-family: "Bebas Neue", sans-serif;
 }
 
 .mainColaboradores{
@@ -373,12 +382,14 @@ footer{
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 100px;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0);
     width: 80%;
     height: 60%;
+    border: 4px solid var(--primary);
     max-width: 800px;
     background-color: var(--background);
     padding: 20px;
@@ -386,7 +397,21 @@ footer{
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     display: none;
+    overflow-y: auto;
+
+    animation: bigCardAppear 0.3s 0.2s forwards;
 }
+
+@keyframes bigCardAppear {
+    0%{
+
+    }
+
+    100%{
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
 
 .card-expandido p{
     color: var(--second);
@@ -402,6 +427,7 @@ footer{
 .infoDoFilme{
     display: flex;
     width: 100%;
+    height: 60%;
 }
 
 
@@ -411,11 +437,69 @@ footer{
 
 .infoDeTexto{
     width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    font-family: "Roboto Serif", serif;
+}
+
+.infoDeTexto h1{
+    font-size: 3vw;
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.infoDeTexto p{
+    width: auto;
+    max-width: 90%;
+    word-break: break-word;
+    white-space: normal;
 }
 
 .imagemDoFilme img{
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: 100%;
+    border: 3px solid var(--second);
+    border-radius: 20px;
+}
+
+.comentarios{
+    width: 90%;
+}
+
+
+
+.comentarioForm{
+    display: flex;
+    flex-direction: column;
+}
+
+.textAreaEbutton input[type = "button"]{
+   background-color: var(--primary);
+   color: var(--second);
+
+   transition: 0.3s;
+}
+
+.textAreaEbutton input[type = "button"]:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.textAreaEbutton{
+    display: flex;
+}
+
+.Comentario{
+    width: 90%;
+    height: 30px;
+    background-color: var(--background);
+    border: 2px var(--primary) solid;
+}
+
+
+.comentarioForm label{
+    color: var(--second);
 }
 
 .overlay {
@@ -490,6 +574,7 @@ footer{
 
     #addMovie{
         left: 95%;
+        transform: translateX(-4%);
     }
     
     #generoMenu{
@@ -500,5 +585,37 @@ footer{
         flex-wrap:wrap;
         
     }
+
+    .infoDoFilme{
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .imagemDoFilme{
+        width: 50%;
+    }
+
+    .infoDeTexto h1{
+        font-size: 7vw;
+    }
     
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--quart); 
+  border-radius: 10px;
+
+}
+
+/* Polegar (parte que se move) */
+body::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+  border: 2px solid transparent; /* "simula" uma alça menor */
+  background-clip: padding-box;
 }
