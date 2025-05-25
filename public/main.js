@@ -57,6 +57,7 @@ async function mostrar() {
 
         const card = document.createElement("div")
         card.classList = "card";
+         card.dataset.filme = JSON.stringify(filme)
         
         card.innerHTML = `
             <img src="${filme.foto}" alt="" class="fotoFilme">
@@ -389,3 +390,53 @@ document.addEventListener("click", (e)=>{
         generoMenu.classList.remove("visible");
     }
 });
+
+
+
+
+const overlay = document.createElement('div');
+overlay.className = 'overlay';
+document.body.appendChild(overlay);
+
+const cardExpandido = document.createElement('div');
+cardExpandido.className = 'card-expandido';
+document.body.appendChild(cardExpandido);
+
+
+document.getElementById('filmes').addEventListener('click', function(e) {
+    const card = e.target.closest('.card');
+    if (card) {
+
+        const filme = JSON.parse(card.dataset.filme);
+        
+        cardExpandido.innerHTML = `
+            <h1>${filme.nome}</h1>
+            <p>Você pode adicionar qualquer conteúdo aqui.</p>
+            <button id="fecharCard">Fechar</button>
+        `;
+        
+
+        cardExpandido.style.display = 'flex';
+        overlay.style.display = 'flex';
+    }
+});
+
+
+
+overlay.addEventListener('click', fecharCardExpandido);
+
+
+
+function fecharCardExpandido() {
+    cardExpandido.style.display = 'none';
+    overlay.style.display = 'none';
+}
+
+
+
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'fecharCard') {
+        fecharCardExpandido();
+    }
+});
+
