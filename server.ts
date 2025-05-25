@@ -3,7 +3,7 @@ import fastify, {FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 import fastifyJwt from '@fastify/jwt';
 import cors from '@fastify/cors';
 import { request } from 'http';
-import { convertToObject } from 'typescript';
+
 
 
 const app = fastify()
@@ -22,7 +22,7 @@ app.register(fastifyJwt, {
 });
 
 
-let myPassword:string = "";
+let myPassword:string = "Thiago@4740w";
 
 
 app.get('/', async (request:FastifyRequest, reply:FastifyReply)=>{
@@ -244,6 +244,9 @@ app.post('/logout', (request:FastifyRequest, reply:FastifyReply)=>{
 });
 
 
+/////////////////////////////////////////////////////////////
+//Leticia
+
 app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply)=>{
 
     const {userId, nomeFilme, descricao, genero, classificacao, foto, lancamento, diretor} = request.body as {userId:number, nomeFilme:string, descricao:string, genero:string, classificacao:number, foto:string, lancamento:string, diretor:string};
@@ -288,7 +291,6 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
         return
     }
     
-    console.log(userId);
 
     reply.status(200).send({mensagem: "filme cadastrado"})
     console.log("filme cadastrado")
@@ -299,11 +301,12 @@ app.post('/cadastrandoFilmes', async (request:FastifyRequest, reply:FastifyReply
     }
 });
 
+
+
 app.post('/mostrarPorGenero', async (request:FastifyRequest, reply:FastifyReply)=>{
 
     const {generoSelecionado} = request.body as {generoSelecionado:string}
 
-    console.log(generoSelecionado);
 
     try{
         const dbconn = await mysql.createConnection({
@@ -317,8 +320,7 @@ app.post('/mostrarPorGenero', async (request:FastifyRequest, reply:FastifyReply)
         const dados = await dbconn.query("SELECT * FROM filmes WHERE genero = ?", [generoSelecionado]);
         const filmes = dados[0];
 
-        console.log(filmes);
-     
+
         reply.status(200).send({mensagem:"Gênero analisado com sucesso, filmes enviados", filmes})
     }catch(erro){
 
@@ -327,7 +329,44 @@ app.post('/mostrarPorGenero', async (request:FastifyRequest, reply:FastifyReply)
     }
 });
 
-//rafel
+///////////////////////////////////////////////////////////////////////////////////
+
+
+app.get('/meusFilmes', { preHandler: verificarToken }, async (request:FastifyRequest, reply:FastifyReply)=>{
+
+    const userid = (request as any).user.id
+    
+
+    try {
+        
+        const dbconn = await mysql.createConnection({
+            host: "localhost",
+            user: 'root',
+            password: myPassword,
+            database:"MovieCritcs",
+            port: 3306
+        });
+
+        const dados = await dbconn.query("SELECT * FROM filmes WHERE userid = ?", [userid]);
+        const filmes = dados[0];
+
+        reply.status(200).send({mensagem: "dados enviados", filmes})
+
+
+        
+    } catch (error) {
+        reply.status(400).send({mensagem: "deu errado meus amigos"})
+        console.log("erro ao conettar ao banco")
+    }
+ 
+
+});
+
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+//rafael
 app.post('/salvarComentarios', async (request: FastifyRequest, reply: FastifyReply) => {
   const { idfilme, userid, comentario } = request.body as any;
     
@@ -370,7 +409,7 @@ app.post('/salvarComentarios', async (request: FastifyRequest, reply: FastifyRep
 });
 
 
-app.get('/obterComentarios', async (request, reply) => {
+app.get('/obterComentarios', async (request:FastifyRequest, reply:FastifyReply) => {
   try {
     const dbconn = await mysql.createConnection({
       host: "localhost",
@@ -392,8 +431,7 @@ app.get('/obterComentarios', async (request, reply) => {
   }
 });
 
-
-
+//////////////////////////////////////////////////////////////////////////////////
 
 app.listen({port: 7000}, (err, address) =>{
     if (err) {

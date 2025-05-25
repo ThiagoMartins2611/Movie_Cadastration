@@ -35,6 +35,7 @@ header{
     align-items: center;
     justify-content: space-between;
     flex-shrink: 0;
+    position: relative;
 }
 
 header h1{
@@ -112,9 +113,16 @@ header #user{
 }
 
 .opDropMenu{
-    cursor: pointer;
     text-decoration: none;
-    color: black;
+    color: var(--quart);
+    padding-left: 10px;
+    padding-top: 10px;
+    
+}
+
+.opDropMenu:hover{
+    cursor: pointer;
+    color: white;
 }
 
 .hidden{
@@ -124,9 +132,15 @@ header #user{
 
 .menu{
     position: absolute;
-    top: 90px;
-    transform: translateX(100px);
+    transform: translateX(100px) translateY(20%);
     z-index: 99;
+
+    height: 50px;
+    width: 100px;
+
+    background-color: var(--primary);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 
     animation: MenuDropAppear 1s forwards 0.05s;
 }
@@ -137,9 +151,11 @@ header #user{
     }
 
     100%{
-        transform: translateX(0px);
+        transform: translateX(0px) translateY(20%);
     }
 }
+
+
 
 
 
@@ -150,9 +166,10 @@ main{
 
 #addMovie{
     display: flex;
-    position: relative;
-    left: 96%;
-    top: 1%;
+    position: absolute;
+    left: 98%;
+    margin-top: 10px;
+    transform: translateX(-50%);
 }
 
 #addMovie g{
@@ -247,7 +264,7 @@ main{
     justify-content: center;
     flex-direction: column;
     position: absolute;
-    top: 13%;
+    transform: translateY(7%) translateX(-42%);
     color:var(--second);
     z-index:999;
     align-items: center;
@@ -255,7 +272,7 @@ main{
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     width: 20%;
-    left:15%;
+    
 }
 
 #generoMenu.visible {
@@ -351,7 +368,7 @@ footer{
 
 
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 840px) {
     
     header {
 
@@ -395,10 +412,30 @@ footer{
     }
 
     .menu{
-        transform: translateX(350%) translateY(200%);
-
+        transform: translateX(300%);
+        width: auto;
+        padding-left: 0;
         animation: appearC;
     }
 
+    .opDropMenu{
+        text-decoration: none;
+        color: var(--quart);
+        padding: 0;
+
+    }
+
+    #addMovie{
+        left: 95%;
+    }
+    
+    #generoMenu{
+ 
+        transform: translateY(24%) translateX(-40%);
+        width: 70%;
+        height: 300px;
+        flex-wrap:wrap;
+        
+    }
     
 }

@@ -4,8 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
+
+    <link rel="stylesheet" href="perfil.css">
+    <link rel="stylesheet" href="variables.css">
 </head>
-<body>
-    perfil
-</body>
+ <body>
+
+    <div class="user">
+
+        <div class="imagem"></div>
+
+        <div id="dados"></div>
+
+    </div>
+
+    <script>
+
+        async function criarPerfil() {
+            
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch('http://localhost:7000/page', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+
+                
+
+                });
+
+                const data = await res.json();
+                const user = data.usuario;
+
+
+                const localDosDados = document.getElementById("dados")
+                localDosDados.innerHTML = `
+
+                    <h1 id="nome">${user.nome}</h1>
+                    <h3 id="email">${user.email}</h3>
+                
+                `
+
+                
+            } catch (error) {
+                console.log("erro ao conector com o servidor")
+            }
+
+        }
+
+        criarPerfil();
+
+    </script>
+
+ </body>
 </html>

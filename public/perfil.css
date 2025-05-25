@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+html, body{
+    width: 100vw;
+    height: 100vh;
+}
+
+body{
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.user{
+    width: 50%;
+    height: 50%;
+    background-color: var(--primary);
+    border-radius: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid var(--second);
+    transition: 0.3s;
+}
+
+.user:hover{
+    transform: scale(1.1);
+}
+
+.imagem{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+
+
+    background-color: lightgray;
+}
+
+#dados{
+    color: var(--quart);
+}
+
+@media screen and (max-width: 840px){
+    .user{
+        justify-content: center;
+        align-content: space-around;
+    }
+}
