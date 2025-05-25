@@ -408,12 +408,39 @@ document.getElementById('filmes').addEventListener('click', function(e) {
     if (card) {
 
         const filme = JSON.parse(card.dataset.filme);
+        const dataSQL = filme.lancamento;
+        const data = new Date(dataSQL);
+        const dataFormatada = new Intl.DateTimeFormat('pt-BR').format(data);
         
         cardExpandido.innerHTML = `
-            <h1>${filme.nome}</h1>
-            <p>Você pode adicionar qualquer conteúdo aqui.</p>
-            <button id="fecharCard">Fechar</button>
-        `;
+            <div class="infoDoFilme">
+
+                <div class="imagemDoFilme">
+                    <img src="${filme.foto}" alt="">               
+                </div>
+
+                <div class="infoDeTexto">
+                    <h1>${filme.nome}</h1>
+
+                    <div class="generoEclassificacao">
+                        <h3>${filme.genero}</h3>
+                        <h3>${filme.classificacao}+</h3>
+                    </div>
+
+                    <h3>${dataFormatada}</h3>
+
+                    <p>${filme.descricao}</p>
+                </div>
+
+            </div>
+
+            <div class="comentarios">
+                
+            </div>
+
+
+        
+            `;
         
 
         cardExpandido.style.display = 'flex';
