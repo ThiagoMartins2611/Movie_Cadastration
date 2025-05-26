@@ -1,4 +1,4 @@
-import mysql, {Connection, ConnectionOptions} from 'mysql2/promise';
+import mysql, {Connection, ConnectionOptions, RowDataPacket} from 'mysql2/promise';
 import fastify, {FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 import fastifyJwt from '@fastify/jwt';
 import cors from '@fastify/cors';
@@ -366,10 +366,10 @@ app.get('/meusFilmes', { preHandler: verificarToken }, async (request:FastifyReq
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-//rafael
+//rafel
 app.post('/salvarComentarios', async (request: FastifyRequest, reply: FastifyReply) => {
-  const {userid, comentario } = request.body as any;
-    console.log(request.body)
+  const { idfilme, userid, userName, comentario } = request.body as any;
+    
   try {
     const dbconn = await mysql.createConnection({
       host: "localhost",
@@ -382,19 +382,21 @@ app.post('/salvarComentarios', async (request: FastifyRequest, reply: FastifyRep
     await dbconn.query(`
       CREATE TABLE IF NOT EXISTS comentarios (
         idComentario INT AUTO_INCREMENT PRIMARY KEY,
+        idfilme INT NOT NULL,
         userid INT NOT NULL,
+        userName VARCHAR(60) NOT NULL,
         comentario LONGTEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (userid) REFERENCES users(id)
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
 
-  
+    //  FOREIGN KEY (idfilme) REFERENCES filmes(idfilme),
+    //FOREIGN KEY (userid) REFERENCES users(id)
 
     // Corrigido: inserir na tabela comentarios, não filmes
     await dbconn.query(
-      "INSERT INTO comentarios (userid, comentario) VALUES (?, ?)",
-      [userid, comentario]
+      "INSERT INTO comentarios (idfilme, userid, userName, comentario) VALUES (?, ?, ?, ?)",
+      [idfilme, userid, userName, comentario]
     );
 
     await dbconn.end();
@@ -408,7 +410,7 @@ app.post('/salvarComentarios', async (request: FastifyRequest, reply: FastifyRep
 });
 
 
-app.get('/obterComentarios', async (request:FastifyRequest, reply:FastifyReply) => {
+app.get('/obterComentarios', async (request, reply) => {
   try {
     const dbconn = await mysql.createConnection({
       host: "localhost",
@@ -418,24 +420,13 @@ app.get('/obterComentarios', async (request:FastifyRequest, reply:FastifyReply) 
       port: 3306
     });
 
-     await dbconn.query(`
-      CREATE TABLE IF NOT EXISTS comentarios (
-        idComentario INT AUTO_INCREMENT PRIMARY KEY,
-        userid INT NOT NULL,
-        comentario LONGTEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
+    const [rowsCom] = await dbconn.query("SELECT idfilme, userName, comentario, created_at FROM comentarios ORDER BY created_at DESC");
 
-    const rows = await dbconn.query("SELECT userid, comentario, created_at FROM comentarios ORDER BY created_at DESC");
-    
-    console.log(rows)
-    
+    //const nomeUser = await dbconn.query("SELECT nome FROM users WHERE id = ?", [userid])
 
     await dbconn.end();
 
-
-    reply.send({ success: true, comentarios: rows });
+    reply.send({ success: true, comentarios: rowsCom });
 
   } catch (erro) {
     console.error("Erro ao conectar com o banco:", erro);

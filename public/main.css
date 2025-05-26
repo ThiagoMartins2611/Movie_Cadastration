@@ -426,8 +426,10 @@ footer{
 
 .infoDoFilme{
     display: flex;
+    align-items: center;
+    
     width: 100%;
-    height: 60%;
+    height: 100%;
 }
 
 
@@ -461,46 +463,6 @@ footer{
     height: 100%;
     border: 3px solid var(--second);
     border-radius: 20px;
-}
-
-.comentarios{
-    width: 90%;
-}
-
-
-
-.comentarioForm{
-    display: flex;
-    flex-direction: column;
-}
-
-.textAreaEbutton input[type = "button"]{
-   background-color: var(--primary);
-   color: var(--second);
-
-   transition: 0.3s;
-}
-
-.textAreaEbutton input[type = "button"]:hover{
-    cursor: pointer;
-    transform: scale(1.1);
-}
-
-.textAreaEbutton{
-    display: flex;
-}
-
-.Comentario{
-    width: 90%;
-    height: 30px;
-    background-color: var(--background);
-    border: 2px var(--primary) solid;
-    color: var(--quart);
-}
-
-
-.comentarioForm label{
-    color: var(--second);
 }
 
 .overlay {

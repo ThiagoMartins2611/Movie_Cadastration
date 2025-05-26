@@ -57,7 +57,7 @@ async function mostrar() {
 
         const card = document.createElement("div")
         card.classList = "card";
-         card.dataset.filme = JSON.stringify(filme)
+        card.dataset.filme = JSON.stringify(filme)
         
         card.innerHTML = `
             <img src="${filme.foto}" alt="" class="fotoFilme">
@@ -452,96 +452,6 @@ document.getElementById('filmes').addEventListener('click', function(e) {
 
 
 });
-
-
-const btnComentar = cardExpandido.querySelector('input[type="button"]');
-
-btnComentar.onclick = async function() {
-    const inputcomentario = document.getElementById('Comentario');
-    const token = localStorage.getItem("token")
-    
-    const comentario = inputcomentario.value.trim();
-
-    if (!comentario) {
-        alert('Por favor, preencha o campo.');
-        return;
-    }
-
-    try {
-
-        const response = await fetch('http://localhost:7000/salvarComentarios', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({userid, comentario})
-        });
-
-        if (!response.ok) {
-        alert('Erro ao salvar comentário no servidor.');
-        return;
-        }
-
-        const data = await response.json();
-
-        if (data.success) {
-        // Atualiza lista de comentários após adicionar
-        carregarComentarios();
-
-        // Limpa formulário
-        document.getElementById('Comentario').value = '';
-        } else {
-        alert('Erro ao salvar comentário: ' + data.message);
-        }
-    } catch (error) {
-        console.log(error);
-    }
-    
-}
-
-  async function carregarComentarios() {
-        try {
-
-        
-
-            const res = await fetch('http://localhost:7000/obterComentarios');
-
-            if (!res.ok) throw new Error('Erro ao carregar comentários');
-
-            const data = await res.json();
-
-            if (data.success) {
-            const container = document.getElementById('comentariosContainer');
-
-            
-            
-            container.innerHTML = ''; // limpa
-
-
-            data.comentarios.forEach(c => {
-                const div = document.createElement('div');
-                div.className = 'comentario-box';
-                div.innerHTML = `
-                <strong>Usuário ID:</strong> ${c.userid}<br>
-                <p>${c.comentario}</p>
-                <small>Comentado em: ${new Date(c.created_at).toLocaleString()}</small>
-                `;
-                container.appendChild(div);
-
-            });
-        
-
-            }
-        } catch (err) {
-            console.error(err);
-        }
-        
-    }
-
-    
-        carregarComentarios();
-
-     
-
-
 
 
 overlay.addEventListener('click', fecharCardExpandido);

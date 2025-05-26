@@ -25,9 +25,6 @@
     <label for="idfilme">ID do Filme</label>
     <input type="number" id="idfilme" name="idfilme" required>
 
-    <label for="userid">ID do Usuário</label>
-    <input type="number" id="userid" name="userid" required>
-
     <label for="Comentario">Comentário sobre o Filme</label>
     <textarea id="Comentario" name="Comentario" rows="5" required placeholder="Digite seu comentário aqui..."></textarea>
 
@@ -38,8 +35,11 @@
 
   <script>
     // Função para buscar e mostrar comentários no carregamento da página
+   
+
     async function carregarComentarios() {
       try {
+
         const res = await fetch('http://localhost:7000/obterComentarios');
         if (!res.ok) throw new Error('Erro ao carregar comentários');
 
@@ -54,7 +54,7 @@
             div.className = 'comentario-box';
             div.innerHTML = `
               <strong>Filme ID:</strong> ${c.idfilme}<br>
-              <strong>Usuário ID:</strong> ${c.userid}<br>
+              <strong>Usuário:</strong> ${c.userName}<br>
               <p>${c.comentario}</p>
               <small>Comentado em: ${new Date(c.created_at).toLocaleString()}</small>
             `;
@@ -69,10 +69,23 @@
     // Função para enviar novo comentário
     async function adicionarComentario() {
       const idfilme = document.getElementById('idfilme').value.trim();
-      const userid = document.getElementById('userid').value.trim();
       const comentario = document.getElementById('Comentario').value.trim();
 
-      if (!idfilme || !userid || !comentario) {
+        const token = localStorage.getItem('token');
+        const resToken = await fetch('http://localhost:7000/page', {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        });
+    
+        const dataToken = await resToken.json();
+
+        const user = dataToken.usuario;
+
+        const userid = user.id;
+        const userName = user.nome;
+
+      if (!idfilme || !comentario) {
         alert('Por favor, preencha todos os campos.');
         return;
       }
@@ -81,7 +94,7 @@
         const response = await fetch('http://localhost:7000/salvarComentarios', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ idfilme, userid, comentario })
+          body: JSON.stringify({ idfilme, userid, userName, comentario })
         });
 
         if (!response.ok) {
@@ -97,7 +110,6 @@
 
           // Limpa formulário
           document.getElementById('idfilme').value = '';
-          document.getElementById('userid').value = '';
           document.getElementById('Comentario').value = '';
         } else {
           alert('Erro ao salvar comentário: ' + data.message);
