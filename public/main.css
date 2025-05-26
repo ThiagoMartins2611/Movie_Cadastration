@@ -432,6 +432,16 @@ footer{
     height: 100%;
 }
 
+.infoDoFilme svg{
+    fill: white;
+    transition: 0.3s;
+}
+
+.infoDoFilme svg:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
 
 .imagemDoFilme{
     width: 40%;
@@ -562,6 +572,11 @@ footer{
     .infoDeTexto h1{
         font-size: 7vw;
     }
+
+    .infoDoFilme svg{
+        fill: white;
+    
+    }   
     
 }
 
