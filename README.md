@@ -17,3 +17,4 @@
 - Adicionar e ver comentários
 - Possuir cadastro e login
 ```
+![Fluxograma](https://github.com/user-attachments/assets/f154e69a-c31c-4c40-b98e-07202d4e5622)
